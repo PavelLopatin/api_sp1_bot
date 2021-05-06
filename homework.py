@@ -28,20 +28,14 @@ def parse_homework_status(homework):
 
 def get_homework_statuses(current_timestamp):
     try:
-        logging.info('Запрос на сервер отправлен')
         homework_statuses = requests.get(
             PRAKTIKUM_URL,
             params={'from_date': current_timestamp},
-            headers={'Authorization': f"OAuth {PRAKTIKUM_TOKEN}"})
-        logging.info('Ответ с серевера получен', homework_statuses.json())
+            headers={'Authorization': f'OAuth {PRAKTIKUM_TOKEN}'})
+        logging.info('Запрос удачный')
         return homework_statuses.json()
     except Exception as error:
-        text = f'Бот столкнулся с ошибкой: {error}'
-        logging.error(
-            f'Статус работы не найден. Ощибка: {error}',
-            exc_info=True)
-        time.sleep(5)
-    raise
+        logging.exception(error)
 
 
 def send_message(message, bot_client):
@@ -50,22 +44,26 @@ def send_message(message, bot_client):
 
 
 def main():
-    bot = telegram.Bot(token=TELEGRAM_TOKEN)
+    bot_client = telegram.Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
     logging.debug('Бот инициализизован.')
     while True:
         try:
             new_homework = get_homework_statuses(current_timestamp)
             if new_homework.get('homeworks'):
-                send_message(
-                    parse_homework_status(new_homework.get('homeworks')[0]))
+                send_message(parse_homework_status(
+                    new_homework.get('homeworks')[0]), bot_client)
+                logging.info('Сообщение отправлено.')
             current_timestamp = new_homework.get(
-                'current_date', current_timestamp)
+                'current_date',
+                current_timestamp)
+            logging.info('Дату поменяли.')
             time.sleep(300)
         except Exception as e:
-            print(f'Бот столкнулся с ошибкой: {e}')
+            logging.error(e, exc_info=True)
+            text = f'Бот столкнулся с ошибкой: {e}'
+            bot_client.send_message(chat_id=CHAT_ID, text=text)
             time.sleep(5)
-
 
 if __name__ == '__main__':
     main()
