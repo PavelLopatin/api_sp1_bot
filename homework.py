@@ -65,5 +65,6 @@ def main():
             bot_client.send_message(chat_id=CHAT_ID, text=text)
             time.sleep(5)
 
+
 if __name__ == '__main__':
     main()
