@@ -32,8 +32,7 @@ def get_homework_statuses(current_timestamp):
         homework_statuses = requests.get(
             PRAKTIKUM_URL,
             params={'from_date': current_timestamp},
-            headers={'Authorization': f"OAuth {PRAKTIKUM_TOKEN}"}
-        )
+            headers={'Authorization': f"OAuth {PRAKTIKUM_TOKEN}"})
         logging.info('Ответ с серевера получен', homework_statuses.json())
         return homework_statuses.json()
     except Exception as error:
