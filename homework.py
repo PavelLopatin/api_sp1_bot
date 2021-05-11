@@ -58,12 +58,12 @@ def main():
                 'current_date',
                 current_timestamp)
             logging.info('Дату поменяли.')
-            TIME = time.sleep(300)
+            time.sleep(300)
         except Exception as e:
             logging.error(e, exc_info=True)
             text = f'Бот столкнулся с ошибкой: {e}'
             bot_client.send_message(chat_id=CHAT_ID, text=text)
-            TIME_ER = time.sleep(15)
+            time.sleep(15)
 
 
 if __name__ == '__main__':
