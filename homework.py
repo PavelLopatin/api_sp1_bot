@@ -6,7 +6,7 @@ import requests
 import telegram
 from dotenv import load_dotenv
 
-load_dotenv() 
+load_dotenv()
 
 TIME = time.sleep(300)
 PRAKTIKUM_TOKEN = os.getenv('PRAKTIKUM_TOKEN')
@@ -17,11 +17,11 @@ PRAKTIKUM_URL = 'https://praktikum.yandex.ru/api/user_api/homework_statuses/'
 
 def parse_homework_status(homework):
     if homework.__contains__('status') \
-        and homework.__contains__('homework_name'):
+            and homework.__contains__('homework_name'):
         status = {'reviewing': 'Работа взята в ревью',
-                'approved': 'Ревьюеру всё понравилось,'
-                            ' можно приступать к следующему уроку',
-                'rejected': 'К сожалению в работе нашлись ошибки'}
+                  'approved': 'Ревьюеру всё понравилось,'
+                              ' можно приступать к следующему уроку',
+                  'rejected': 'К сожалению в работе нашлись ошибки'}
         homework_name = homework['homework_name']
         verdict = status[homework['status']]
         if homework_name is None or status is None:
