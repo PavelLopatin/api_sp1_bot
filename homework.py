@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TIME = time.sleep(300)
+TIME = time.sleep
 PRAKTIKUM_TOKEN = os.getenv('PRAKTIKUM_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
@@ -64,12 +64,12 @@ def main():
                 'current_date',
                 current_timestamp)
             logging.info('Дату поменяли.')
-            TIME
+            TIME(300)
         except Exception and TypeError as e:
             logging.error(e, exc_info=True)
             text = f'Бот столкнулся с ошибкой: {e}'
             bot_client.send_message(chat_id=CHAT_ID, text=text)
-            TIME
+            TIME(200)
 
 
 if __name__ == '__main__':
