@@ -16,7 +16,8 @@ PRAKTIKUM_URL = 'https://praktikum.yandex.ru/api/user_api/homework_statuses/'
 
 
 def parse_homework_status(homework):
-    if homework.__contains__('status') and homework.__contains__('homework_name'):
+    if homework.__contains__('status') \
+        and homework.__contains__('homework_name'):
         status = {'reviewing': 'Работа взята в ревью',
                 'approved': 'Ревьюеру всё понравилось,'
                             ' можно приступать к следующему уроку',
@@ -24,9 +25,11 @@ def parse_homework_status(homework):
         homework_name = homework['homework_name']
         verdict = status[homework['status']]
         if homework_name is None or status is None:
-            logging.error('Неверный статус')
-            return 'Неверный статус'
+            logging.error('Неверный статус или имя')
+            return 'Неверный статус или имя'
         return f'У вас проверили работу "{homework_name}"!\n{verdict}.'
+    logging.error('Нет нужного ключа')
+    return 'Нет нужного ключа'
 
 
 def get_homework_statuses(current_timestamp):
