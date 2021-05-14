@@ -31,7 +31,7 @@ def parse_homework_status(homework):
         return 'Неверный статус или имя'
     elif homework_status not in status:
         logging.error('Данного статуса нет в словаре')
-        return 'Не удается получить статус домашнего задания' 
+        return 'Не удается получить статус домашнего задания'
     verdict = status[homework_status]
     return f'У вас проверили работу "{homework_name}"!\n{verdict}.'
 
